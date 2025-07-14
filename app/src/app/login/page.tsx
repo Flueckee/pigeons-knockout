@@ -1,78 +1,89 @@
-'use client';
+"use client";
+import { useEffect, useState } from "react";
+import { loginWithEmail, registerWithEmail } from "../util/pocketbase";
+import styles from "./login.module.css";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import client from '../lib/pocketbase';
+const REGISTER_TEXT = "registrieren";
+const LOGIN_TEXT = "login";
 
-export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const submitMode = Object.freeze({
+  LOGING: "login",
+  REGISTER: "register",
+});
 
-  const login = async () => {
-    try {
-      await client.collection('users').authWithPassword(email, password);
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+export default function Login() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+  const [helperText, setHelperText] = useState<string>();
+  const [submitModeButtonText, setSubmitModeButtonText] = useState<string>(LOGIN_TEXT);
+
+  const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true);
+  const [registerMode, setRegisterMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!registerMode) {
+      setSubmitButtonDisabled(email === "" || password === "");
+    } else {
+      const areValuesEmpty = email === "" || password === "" || passwordConfirm === "";
+      const arePasswordDifferent = password !== passwordConfirm;
+
+      console.log(areValuesEmpty);
+      console.log(arePasswordDifferent);
+
+      if (arePasswordDifferent && password !== "" && passwordConfirm !== "") setHelperText("Die Passwörter sind nicht gleich!");
+      else setHelperText("");
+
+      setSubmitButtonDisabled(areValuesEmpty || arePasswordDifferent);
+    }
+  }, [email, password, passwordConfirm, registerMode]);
+
+  const onRegisterSubmit = async () => {
+    if (registerMode) {
+      registerWithEmail(email, password, passwordConfirm);
+    } else {
+      loginWithEmail(email, password);
     }
   };
 
-  const register = async () => {
-    try {
-      await client.collection('users').create({ email, password, passwordConfirm: password });
-      await login(); // auto-login after registration
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
-    }
+  const onRegisterModeButtonClick = () => {
+    setRegisterMode(!registerMode);
+    setSubmitModeButtonText(registerMode ? LOGIN_TEXT : REGISTER_TEXT);
+    setPasswordConfirm("");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-md p-8 space-y-6">
-        <h1 className="text-2xl font-bold text-center">Login</h1>
-        {error && (
-          <div className="bg-red-100 text-red-700 px-4 py-2 rounded">{error}</div>
-        )}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-              required
-            />
-          </div>
-
-          <div className="flex justify-between gap-4 flex-col">
-            <button
-              onClick={login}
-              className="w-full bg-amber-500 text-white py-2 px-4 rounded-xl hover:bg-amber-600 transition"
-            >
-              Login
-            </button>
-            <button
-              onClick={register}
-              className="w-full outline-1 outline-amber-300 text-black py-2 px-4 rounded-xl hover:bg-amber-300 transition"
-            >
-              Register
-            </button>
-          </div>
+    <div className={styles.page}>
+      <h1>Wilkommen</h1>
+      <form className={styles.form}>
+        <div>
+          <label>Email</label>
+          <input type="label" value={email} onChange={(event) => setEmail(event.target.value)} />
         </div>
+        <div>
+          <label>Passwort</label>
+          <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+        </div>
+        {registerMode && (
+          <div className={`${styles.fadeIn} ${styles.show}`}>
+            <label>Passwort wdh.</label>
+            <input type="password" value={passwordConfirm} onChange={(event) => setPasswordConfirm(event.target.value)} />
+          </div>
+        )}
+      </form>
+      <text>{helperText}</text>
+      <div className={styles.submitArea}>
+        <button className={styles.modeButton} onClick={onRegisterModeButtonClick}>
+          Ich habe noch keinen Account
+        </button>
+        <button className={styles.submitButton} disabled={isSubmitButtonDisabled} onClick={onRegisterSubmit}>
+          {submitModeButtonText}
+        </button>
       </div>
+        <div className={styles.footer}>
+            <a href="datenschutzerklaerung">Datenschutzerklärung</a>
+            <a href="/">Home Page</a>
+        </div>
     </div>
   );
 }

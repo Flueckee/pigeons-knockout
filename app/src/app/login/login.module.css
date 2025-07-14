@@ -1,0 +1,72 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+
+  background: linear-gradient(to bottom, var(--secondary-color) 0%, rgba(13, 59, 102, 0) 100%);
+}
+
+.submitButton {
+  background-color: var(--primary-color);
+  color: aliceblue;
+  width: 100%;
+}
+
+.modeButton {
+  border: 2px solid var(--secondary-color);
+  background-color: white;
+  width: 100%;
+}
+
+.submitArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  column-gap: 8;
+}
+
+.page {
+  width: 80%;
+  max-width: 800px;
+  box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 32px 32px 16px 32px;
+  background-color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  margin-bottom: 28px;
+}
+
+.form div {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2;
+  font-weight: bold;
+}
+
+.fadeIn {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  transform: translateY(-10px);
+}
+
+.show {
+  opacity: 1;
+  max-height: 100px;
+  transform: translateY(0);
+}
+
+.footer {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-around;
+}
