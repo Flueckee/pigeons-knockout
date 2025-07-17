@@ -4,6 +4,9 @@ body {
   --terniray-color: #ede7d9;
   --baground-color: #fff;
 
+  --error-color: #cc0000;
+  --success-color: #00cc00;
+
   font-size: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -36,4 +39,16 @@ button:disabled {
 input {
   height: 24px;
   font-size: 16px;
+  padding: 12px 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  color: #000;
+}
+
+.form input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.2);
+  outline: none;
 }

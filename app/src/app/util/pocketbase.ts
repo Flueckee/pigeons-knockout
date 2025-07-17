@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 
 const pb = new PocketBase("https://pocketbase.fluecke.de/");
 
+const PB_TOKEN = "pb_token"
+
 export const loginWithEmail = async (email: string, password: string) => {
   const authData = await pb.collection("users").authWithPassword(email, password);
   const cookieStore = await cookies();
@@ -28,6 +30,14 @@ export const registerWithEmail = async (email: string, password: string, passwor
     passwordConfirm: passwordConfirm,
   };
 
-  const record = await pb.collection("users").create(data);
-  //   await pb.collection('users').requestVerification('test@example.com');
+  await pb.collection("users").create(data);
+  await pb.collection("users").requestVerification("test@example.com");
+};
+
+export const isLoggedIn = async (): Promise<boolean> => {
+  const cookieStore = await cookies();
+  const pbCookie = cookieStore.get("pb_token")
+
+  return pbCookie != undefined
+
 };

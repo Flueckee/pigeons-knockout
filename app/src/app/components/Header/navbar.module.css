@@ -1,0 +1,49 @@
+.header {
+  height: 64px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.profileIcon {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.profileIcon:hover {
+  transform: translateY(-2px);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltipText {
+  position: absolute;
+  margin-top: 2px;
+  padding: 0.55rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #000;
+  border-radius: 50px;
+  background-color: #fff;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  right: 105%;
+}
+
+.tooltip:hover .tooltipText {
+  opacity: 0.9;
+  transition-delay: 0.4s;
+}
