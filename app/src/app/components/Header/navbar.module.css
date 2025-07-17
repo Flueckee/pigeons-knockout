@@ -1,10 +1,18 @@
 .header {
+  box-sizing: border-box;
   height: 64px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  position: sticky;
+  top: 0;
+  margin: 0 auto;
+  background-color: var(--baground-color);
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  border-radius: 12 12 12 12;
 }
 
 .profileIcon {

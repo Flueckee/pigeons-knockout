@@ -1,0 +1,29 @@
+.formDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formLabel {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.textfield {
+  height: 24px;
+  font-size: 16px;
+  padding: 12px 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: var(--baground-color);
+  color: #000;
+}
+
+.textfield:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.2);
+  outline: none;
+}

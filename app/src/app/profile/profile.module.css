@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.formDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.subHeader {
+ background-color: aqua;
+ border-radius: 12px;
+ padding-top: 32px;
+ margin-top: -32px;
+}
+
+.userContainer {
+  display: grid;
+  grid-template-columns: 420px 420px ;
+  grid-template-rows: auto;
+  gap: 16px;
+}
+
+@media (max-width: 840px) {
+  .userContainer {
+    grid-template-columns: 1fr;
+  }
+}
